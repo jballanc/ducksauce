@@ -8,6 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = DuckSauce::VERSION
   gem.authors       = ['Josh Ballanco']
   gem.email         = ['jballanc@gmail.com']
+  gem.license       = 'BSD 2-Clause'
   gem.description   = 'DuckSauce handles duck type boilerplate so you don\'t have to.'
   gem.summary       = <<-EOS.lines.map(&:lstrip).join
                         DuckSauce is a gem that takes the hard work out of doing
