@@ -77,3 +77,10 @@ some ideas on how it could be made even better, please use the "issue
 tracker":https://github.com/jballanc/ducksauce/issues to let me know. If you
 are using it and would like to share any tips or tricks, please feel free to add
 a page to the "wiki":https://github.com/jballanc/ducksauce/wiki. Thanks!
+
+## Copyright
+
+Ducksauce Copyright (c) 2014, Joshua Ballanco.
+
+Licensed under the BSD 2-Clause License. See COPYING for full license details.
+
