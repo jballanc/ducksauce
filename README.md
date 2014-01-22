@@ -32,7 +32,7 @@ module MyApp
     end
   end
 
-  converter :MyDataType, :to_my_data
+  converter MyDataType, :to_my_data
 end
 ```
 
@@ -48,8 +48,6 @@ covered there as well:
 ```ruby
 module MyApp
   class MyDataType
-    include DuckSauce
-
     ducktype(first: MyDataType, second: String, third: Integer)
     def a_data_method(first, second, third)
       #...
