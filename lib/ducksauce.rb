@@ -5,6 +5,10 @@
 # See COPYING for more details.
 
 require 'ducksauce/version'
+require 'ducksauce/converter'
 
 module DuckSauce
+  def self.included(target)
+    target.extend DuckSauce::Converter
+  end
 end
