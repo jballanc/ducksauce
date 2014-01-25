@@ -2,41 +2,46 @@ require 'ducksauce'
 require 'minitest/autorun'
 
 describe DuckSauce::Converter do
-  before do
-    class Target
-      include DuckSauce
-    end
-
-    class Subject; end
-  end
-
-  it 'Adds a converter class method when the class includes DuckSauce' do
-    Target.methods.must_include :converter
-  end
-
-  describe 'used to create a default converter method' do
+  describe 'Used in the context of a Module' do
     before do
-      class Target
-        converter Target
+      module Example
+        module Namespace
+          include DuckSauce
+          class Target; end
+        end
       end
+
+      class Subject; end
     end
 
-    it 'adds a method to Kernel with the name of the target class' do
-      Kernel.methods.must_include :Target
+    it 'adds a converter method to the module' do
+      Example::Namespace.methods.must_include :converter
     end
 
-    it 'uses #kind_of? as the default test' do
-      m = MiniTest::Mock.new
-      m.expect(:kind_of?, true, [Target])
+    describe 'used to create a default converter method' do
+      before do
+        module Example::Namespace
+          converter Target
+        end
+      end
 
-      Target(m)
+      it 'adds a method to the module with the name of the target class' do
+        Example::Namespace.methods.must_include :Target
+      end
 
-      m.verify
-    end
+      it 'uses #kind_of? as the default test' do
+        m = MiniTest::Mock.new
+        m.expect(:kind_of?, true, [Example::Namespace::Target])
 
-    it 'raises a TypeError if the argument is the wrong type' do
-      s = Subject.new
-      -> { Target(s) }.must_raise(TypeError)
+        Example::Namespace::Target(m)
+
+        m.verify
+      end
+
+      it 'raises a TypeError if the argument is the wrong type' do
+        s = Subject.new
+        -> { Example::Namespace::Target(s) }.must_raise(TypeError)
+      end
     end
   end
 end
