@@ -2,6 +2,23 @@ require 'ducksauce'
 require 'minitest/autorun'
 
 describe DuckSauce::Converter do
+  describe 'Used within a class' do
+    before do
+      class Target
+        include DuckSauce
+      end
+    end
+
+    it 'adds a converter class method' do
+      Target.methods.must_include :converter
+    end
+
+    it 'creates a converter for the containing class' do
+      Target.converter
+      ::Kernel.methods.must_include :Target
+    end
+  end
+
   describe 'Used in the context of a Module' do
     before do
       module Example
