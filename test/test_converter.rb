@@ -2,7 +2,7 @@ require 'ducksauce'
 require 'minitest/autorun'
 
 describe DuckSauce::Converter do
-  describe 'Used within a class' do
+  describe 'Included in a class' do
     before do
       class Target
         include DuckSauce
@@ -19,7 +19,7 @@ describe DuckSauce::Converter do
     end
   end
 
-  describe 'Used in the context of a Module' do
+  describe 'In the context of a Module' do
     before do
       module Example
         module Namespace
@@ -35,30 +35,74 @@ describe DuckSauce::Converter do
       Example::Namespace.methods.must_include :converter
     end
 
-    describe 'used to create a default converter method' do
-      before do
-        module Example::Namespace
-          converter Target
-        end
+    it 'creates a converter method scoped to the containing namespace' do
+      module Example::Namespace
+        converter Target
       end
 
-      it 'adds a method to the module with the name of the target class' do
-        Example::Namespace.methods.must_include :Target
+      Example::Namespace.methods.must_include :Target
+    end
+  end
+
+  describe 'Used to create a default converter method' do
+    before do
+      class DefaultConverted
+        include DuckSauce
+        converter
       end
+    end
 
-      it 'uses #kind_of? as the default test' do
-        m = MiniTest::Mock.new
-        m.expect(:kind_of?, true, [Example::Namespace::Target])
+    it 'uses #kind_of? as the default test' do
+      m = MiniTest::Mock.new
+      m.expect(:kind_of?, true, [DefaultConverted])
 
-        Example::Namespace::Target(m)
+      DefaultConverted(m)
 
-        m.verify
+      m.verify
+    end
+
+    it 'raises a TypeError if the argument is the wrong type' do
+      s = Subject.new
+      -> { DefaultConverted(s) }.must_raise(TypeError)
+    end
+  end
+
+  describe 'Passed alternative methods to use for conversion' do
+    before do
+      class MethodConverted
+        include DuckSauce
+        converter :to_methconv, :to_mc
       end
+    end
 
-      it 'raises a TypeError if the argument is the wrong type' do
-        s = Subject.new
-        -> { Example::Namespace::Target(s) }.must_raise(TypeError)
-      end
+    it 'tests with #kind_of? first' do
+      m = MiniTest::Mock.new
+      m.expect(:kind_of?, true, [MethodConverted])
+
+      MethodConverted(m)
+
+      m.verify
+    end
+
+    it 'tries alternative methods in order' do
+      m1 = MiniTest::Mock.new
+      m2 = MiniTest::Mock.new
+      c = MethodConverted.new
+
+      m1.expect(:kind_of?, false, [MethodConverted])
+      m1.expect(:to_methconv, c)
+      def m1.to_mc; end
+
+      MethodConverted(m1)
+
+      m1.verify
+
+      m2.expect(:kind_of?, false, [MethodConverted])
+      m2.expect(:to_mc, c)
+
+      MethodConverted(m2)
+
+      m2.verify
     end
   end
 end
