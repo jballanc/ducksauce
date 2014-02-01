@@ -4,6 +4,12 @@ module DuckSauce
       klass, conv_meths = adjust_args(klass, conv_meths)
       mod, classname = module_classname_split(klass.name)
 
+
+      if use_initialize && !valid_initialize_arity(klass)
+        use_initialize = false
+        warn("WARNING: Initializer takes wrong number of args for conversion")
+      end
+
       mod.module_eval do
         define_method(classname.to_sym) do |other|
           return other if other.kind_of?(klass)
@@ -38,6 +44,20 @@ module DuckSauce
       mod_name = parts[0..-2].join('::')
       mod = mod_name == '' ? ::Kernel : ::Kernel.const_get(mod_name)
       return mod, parts[-1]
+    end
+
+    def valid_initialize_arity(klass)
+      params = klass.instance_method(:initialize).parameters.group_by(&:first)
+      params.default = []
+
+      # Initialize should not have any required keyword params, and must have
+      # at least one required, optional, or rest param, but not more than one
+      # required param:
+      keyreq = params[:keyreq].count
+      req = params[:req].count
+      opt_rest = (params[:opt] + params[:rest]).count
+
+      keyreq == 0 && req < 2 && (req + opt_rest) > 0
     end
   end
 end

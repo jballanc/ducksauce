@@ -105,4 +105,17 @@ describe DuckSauce::Converter do
       m2.verify
     end
   end
+
+  describe 'Using initialize for conversion' do
+    it 'warns if the target does not have an initializer of the right arity' do
+      warning = "WARNING: Initializer takes wrong number of args for conversion\n"
+
+      -> {
+        class WrongArity
+          include DuckSauce
+          converter use_initialize: true
+        end
+      }.must_output nil, warning
+    end
+  end
 end
