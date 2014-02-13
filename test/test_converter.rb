@@ -117,5 +117,19 @@ describe DuckSauce::Converter do
         end
       }.must_output nil, warning
     end
+
+    it 'calls `new` with the subject if #kind_of? is false' do
+      class InitializeConverted
+        include DuckSauce
+        def initialize(subj); end
+        converter use_initialize: true
+      end
+      m = MiniTest::Mock.new
+      m.expect(:kind_of?, false, [InitializeConverted])
+
+      r = InitializeConverted(m)
+
+      r.must_be_kind_of InitializeConverted
+    end
   end
 end

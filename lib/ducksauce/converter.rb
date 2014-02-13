@@ -4,7 +4,6 @@ module DuckSauce
       klass, conv_meths = adjust_args(klass, conv_meths)
       mod, classname = module_classname_split(klass.name)
 
-
       if use_initialize && !valid_initialize_arity(klass)
         use_initialize = false
         warn("WARNING: Initializer takes wrong number of args for conversion")
@@ -13,9 +12,15 @@ module DuckSauce
       mod.module_eval do
         define_method(classname.to_sym) do |other|
           return other if other.kind_of?(klass)
+
           conv_meths.each do |conv_meth|
             return other.send(conv_meth) if other.respond_to? conv_meth
           end
+
+          if use_initialize
+            return klass.new(other)
+          end
+
           raise TypeError, "can't convert #{other} into #{klass}"
         end
         module_function(classname.to_sym)
