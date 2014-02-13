@@ -22,6 +22,9 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '>= 2.1.0'
 
+  # Ugh...because even Ruby 2.1 still ships with outdated minitest
+  gem.add_development_dependency 'minitest', '~> 5.0'
+
   gem.files         = Dir['{lib,test}/**/*.rb']
   gem.files        += %w|README.md NEWS.md COPYING ducksauce.gemspec|
   gem.test_files    = gem.files.grep(%r|^test/|)
