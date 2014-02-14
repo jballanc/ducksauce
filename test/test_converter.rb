@@ -132,4 +132,21 @@ describe DuckSauce::Converter do
       r.must_be_kind_of InitializeConverted
     end
   end
+
+  describe 'With a mix of methods available for conversion' do
+    it 'checks type, then conversion method, then constructor in order' do
+      class MixConverted
+        include DuckSauce
+        def initialize(subj); end
+        converter :to_mix, use_initialize: true
+      end
+      m = MiniTest::Mock.new
+      m.expect(:kind_of?, false, [MixConverted])
+      m.expect(:respond_to?, false, [:to_mix])
+
+      r = MixConverted(m)
+
+      r.must_be_kind_of MixConverted
+    end
+  end
 end
