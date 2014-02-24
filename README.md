@@ -10,7 +10,7 @@ what constitutes "walking like a string" and "talking like a string"?
 Well, you could just cover your eyes and pretend like the object you expect to
 be a string actually acts like one. This can be a bit dangerous (even if you do
 have really good test coverage), but more importantly this is a violation of
-"Postel's Law":http://en.wikipedia.org/wiki/Postel%27s%5Flaw. What, then can you
+[Postel's Law](http://en.wikipedia.org/wiki/Postel%27s%5Flaw). What, then can you
 do if you want to be able to handle not only explicit strings, but also objects
 that can be converted into strings?
 
@@ -72,10 +72,9 @@ check and/or conversion.
 
 As this project is still extremely young, the biggest thing you can do to help
 right now is use it! If you find bugs, wish it worked a bit differently, or have
-some ideas on how it could be made even better, please use the "issue
-tracker":https://github.com/jballanc/ducksauce/issues to let me know. If you
+some ideas on how it could be made even better, please use the [issue tracker](https://github.com/jballanc/ducksauce/issues) to let me know. If you
 are using it and would like to share any tips or tricks, please feel free to add
-a page to the "wiki":https://github.com/jballanc/ducksauce/wiki. Thanks!
+a page to the [wiki](https://github.com/jballanc/ducksauce/wiki). Thanks!
 
 ## Copyright
 
