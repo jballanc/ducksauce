@@ -48,9 +48,10 @@ covered there as well:
 ```ruby
 module MyApp
   class MyDataType
-    ducktype(first: MyDataType, second: String, third: Integer)
-    def a_data_method(first, second, third)
-      #...
+    ducktype(first: MyDataType, second: String, third: Integer) do
+      def a_data_method(first, second, third)
+        #...
+      end
     end
   end
 end
