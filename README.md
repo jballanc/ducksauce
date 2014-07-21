@@ -22,6 +22,8 @@ converted into the right thing? That's the first place DuckSauce can help out.
 
 ```ruby
 module MyApp
+  include Ducktype
+
   class MyDataType
     #...
   end
@@ -48,10 +50,11 @@ covered there as well:
 ```ruby
 module MyApp
   class MyDataType
-    ducktype(first: MyDataType, second: String, third: Integer) do
-      def a_data_method(first, second, third)
-        #...
-      end
+    include Ducktype
+
+    ducktype(first: MyDataType, second: String, third: Integer)
+    def a_data_method(first, second, third)
+      #...
     end
   end
 end
@@ -65,7 +68,7 @@ check and/or conversion.
 ## Converters
 
 
-## Type Coercion
+## Duck Types
 
 
 ## Contributing
