@@ -1,3 +1,3 @@
-## v0.0.0 (2012-11-27)
+## v0.1.0 (2014-07-27)
 
-* Happy Birthday!
+* Initial Release

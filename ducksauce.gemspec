@@ -10,19 +10,18 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Josh Ballanco']
   gem.email         = ['jballanc@gmail.com']
   gem.license       = 'BSD 2-Clause'
-  gem.description   = 'DuckSauce handles duck typing so you don\'t have to.'
+  gem.description   = 'DuckSauce gives Ruby duck typing superpowers!'
   gem.summary       = <<-EOS.lines.map(&:lstrip).join
-                        DuckSauce is a gem that takes the hard work out of doing
-                        duck typing in Ruby. It allows you to both quickly
-                        define generic type coercion helper methods and use
-                        those methods to coerce method arguments before the body
-                        of your methods.
+                        DuckSauce provides two pieces that can work together or on their
+                        own. The first piece gives you an easy way to create method
+                        converters (similar to the built-in `Integer()` method). The
+                        second piece lets you use converters to create methods that will
+                        dispatch on the type of your arguments.
                       EOS
   gem.homepage      = 'https://github.com/jballanc/ducksauce'
 
   gem.required_ruby_version = '>= 2.1.0'
 
-  # Ugh...because even Ruby 2.1 still ships with outdated minitest
   gem.add_development_dependency 'minitest', '~> 5.0'
 
   gem.files         = Dir['{lib,test}/**/*.rb']
