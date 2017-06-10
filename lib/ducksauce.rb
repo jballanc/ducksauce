@@ -6,9 +6,11 @@
 
 require 'ducksauce/version'
 require 'ducksauce/converter'
+require 'ducksauce/ducktype'
 
 module DuckSauce
   def self.included(target)
     target.extend DuckSauce::Converter
+    target.extend DuckSauce::DuckType
   end
 end

@@ -1,11 +1,11 @@
-require 'ducksauce'
+require 'ducksauce/converter'
 require 'minitest/autorun'
 
 describe DuckSauce::Converter do
-  describe 'Included in a class' do
+  describe 'A class that extends DuckSauce::Converter' do
     before do
       class Target
-        include DuckSauce
+        extend DuckSauce::Converter
       end
     end
 
@@ -19,37 +19,13 @@ describe DuckSauce::Converter do
     end
   end
 
-  describe 'In the context of a Module' do
-    before do
-      module Example
-        module Namespace
-          include DuckSauce
-          class Target; end
-        end
-      end
-
-      class Subject; end
-    end
-
-    it 'adds a converter method to the module' do
-      Example::Namespace.methods.must_include :converter
-    end
-
-    it 'creates a converter method scoped to the containing namespace' do
-      module Example::Namespace
-        converter Target
-      end
-
-      Example::Namespace.methods.must_include :Target
-    end
-  end
-
   describe 'Used to create a default converter method' do
     before do
       class DefaultConverted
-        include DuckSauce
+        extend DuckSauce::Converter
         converter
       end
+      class Subject; end
     end
 
     it 'uses #kind_of? as the default test' do
